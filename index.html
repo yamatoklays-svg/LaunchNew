@@ -317,70 +317,6 @@
         .gear-btn:hover { color:var(--cyan); background:rgba(0,200,255,0.06); transform:rotate(45deg); }
         .gear-btn.active { color:var(--cyan); background:rgba(0,200,255,0.1); transform:rotate(90deg); }
 
-        /* ═══ Logo mark (top-left) ═══ */
-        .titlebar-logo {
-            width:20px; height:20px; border-radius:7px; flex-shrink:0;
-            display:flex; align-items:center; justify-content:center;
-            font-size:11px; font-weight:800; color:#fff;
-            background:linear-gradient(135deg,#ff2e6c 0%,#8b5cf6 55%,#00d4ff 100%);
-            box-shadow:0 0 12px rgba(139,92,246,0.45), inset 0 1px 0 rgba(255,255,255,0.25);
-        }
-        .titlebar-title-wrap { display:flex; align-items:baseline; gap:7px; }
-        .titlebar-title {
-            font-family:'Unbounded','Inter',sans-serif; font-weight:800; font-size:12px; letter-spacing:1.5px;
-            background:linear-gradient(90deg,#ff4d8d 0%,#a78bfa 45%,#22e4ff 100%);
-            -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
-            text-transform:none;
-        }
-        .titlebar-by { font-size:10px; color:rgba(170,200,255,0.35); letter-spacing:0.5px; font-style:italic; }
-        .titlebar-author { font-size:10px; font-weight:700; letter-spacing:1.5px; color:#c9a8ff; text-transform:none; }
-
-        /* ═══ Builds tab + slide-out panel (right side) ═══ */
-        .builds-tab {
-            position:fixed; top:50%; right:0; transform:translateY(-50%); z-index:60;
-            writing-mode:vertical-rl; text-orientation:mixed;
-            display:flex; align-items:center; gap:7px;
-            background:var(--card); border:1px solid var(--border2); border-right:none;
-            border-radius:12px 0 0 12px; padding:16px 7px;
-            font-family:'Unbounded','Inter',sans-serif; font-size:10px; font-weight:700; letter-spacing:3px;
-            color:var(--muted); cursor:pointer; box-shadow:-4px 0 20px rgba(0,0,0,0.35);
-            transition:0.2s ease;
-        }
-        .builds-tab .bt-ico { writing-mode:horizontal-tb; font-size:13px; }
-        .builds-tab:hover { color:var(--text); border-color:var(--cyan); padding-right:11px; box-shadow:-4px 0 24px rgba(0,180,255,0.25); }
-        .builds-overlay {
-            position:fixed; top:36px; left:0; right:0; bottom:0; z-index:70;
-            background:rgba(0,0,0,0.45); opacity:0; pointer-events:none; transition:opacity 0.25s ease;
-        }
-        .builds-overlay.show { opacity:1; pointer-events:auto; }
-        .builds-panel {
-            position:fixed; top:36px; bottom:0; right:-320px; width:300px; z-index:80;
-            background:var(--card); backdrop-filter:blur(22px);
-            border-left:1px solid var(--border2); box-shadow:-10px 0 40px rgba(0,0,0,0.5);
-            display:flex; flex-direction:column; transition:right 0.32s cubic-bezier(.32,.72,0,1);
-        }
-        .builds-panel.open { right:0; }
-        .builds-panel-header {
-            display:flex; align-items:center; justify-content:space-between;
-            padding:14px 16px; border-bottom:1px solid var(--border); flex-shrink:0;
-        }
-        .builds-panel-title { font-family:'Unbounded','Inter',sans-serif; font-weight:700; font-size:12px; letter-spacing:1px; color:var(--text); }
-        .builds-panel-close { width:26px; height:26px; border:none; border-radius:8px; background:transparent; color:var(--muted); cursor:pointer; font-size:13px; }
-        .builds-panel-close:hover { background:rgba(255,255,255,0.06); color:#fff; }
-        .builds-list { flex:1; overflow-y:auto; padding:10px 0; }
-        .build-card { margin:0 14px 12px; padding:14px; border-radius:12px; background:rgba(255,255,255,0.03); border:1px solid var(--border); }
-        .build-card-name { font-weight:700; font-size:13px; color:var(--text); }
-        .build-card-ver { font-size:10px; color:var(--muted); margin-top:2px; letter-spacing:0.5px; }
-        .build-card-meta { font-size:10px; color:var(--muted); margin:8px 0 6px; }
-        .build-card-desc { font-size:11px; color:rgba(200,220,255,0.65); line-height:1.45; margin-bottom:10px; }
-        .build-card-dl {
-            width:100%; padding:9px; border:none; border-radius:9px; cursor:pointer;
-            background:linear-gradient(135deg,#ff4d8d,#a78bfa 55%,#22e4ff); color:#fff;
-            font-weight:700; font-size:11px; letter-spacing:1px; transition:filter 0.15s, transform 0.15s;
-        }
-        .build-card-dl:hover { filter:brightness(1.12); transform:translateY(-1px); }
-        .build-card-dl:active { transform:translateY(0); }
-
         /* Layout */
         .wrapper { position:relative; z-index:2; padding:10px 16px 8px; height:calc(100vh - 36px); display:flex; flex-direction:column; gap:9px; }
 
@@ -736,14 +672,9 @@ body.theme-macos.mj .section-label { display:none !important; }
 /* ── Titlebar ── */
 body.theme-macos.mj .titlebar { height:40px; padding:0 8px 0 18px; background:transparent; border-bottom:none; }
 body.theme-macos.mj .titlebar::after { display:none; }
-body.theme-macos.mj .titlebar-title { font-family:'Unbounded','Inter',sans-serif; font-size:12px; font-weight:800; letter-spacing:.8px; }
-body.theme-macos.mj .titlebar-by { font-size:11px; color:var(--label3); letter-spacing:0; font-style:italic; }
-body.theme-macos.mj .titlebar-author { font-size:11px; font-weight:600; letter-spacing:0; color:#c9a8ff; text-transform:none; }
-body.theme-macos.mj .titlebar-logo { box-shadow:0 0 12px rgba(139,92,246,0.5), inset 0 1px 0 rgba(255,255,255,0.25); }
-body.theme-macos.mj .builds-tab { background:linear-gradient(180deg,#1c1c20,#050506); border-color:var(--hair); box-shadow:-4px 0 20px rgba(0,0,0,0.6); }
-body.theme-macos.mj .builds-tab:hover { color:#fff; border-color:#a78bfa; }
-body.theme-macos.mj .builds-panel { background:linear-gradient(180deg,rgba(20,20,24,.98),rgba(0,0,0,.98)); border-left-color:var(--hair); }
-body.theme-macos.mj .build-card { background:rgba(255,255,255,0.03); border-color:var(--hair); border-radius:14px; }
+body.theme-macos.mj .titlebar-title { font-family:inherit; font-size:12px; font-weight:600; letter-spacing:.2px; color:var(--label2); }
+body.theme-macos.mj .titlebar-by { font-size:11px; color:var(--label3); letter-spacing:0; }
+body.theme-macos.mj .titlebar-author { font-size:11px; font-weight:500; letter-spacing:0; color:var(--label2); text-transform:none; }
 body.theme-macos.mj .titlebar-buttons { gap:6px; }
 body.theme-macos.mj .titlebar-buttons button, body.theme-macos.mj .gear-btn {
     width:30px; height:28px; margin:0; border-radius:50%; color:var(--label2); font-size:13px;
@@ -1241,12 +1172,9 @@ body.theme-macos.mj .settings-save-btn:active { transform:translateY(4px); box-s
                 <div class="macos-tl green-tl"></div>
             </div>
             <div class="titlebar-marker"><span></span><span></span><span></span></div>
-            <div class="titlebar-logo" aria-hidden="true">東</div>
-            <div class="titlebar-title-wrap">
-                <div class="titlebar-title">Tokyo Launcher</div>
-                <div class="sep">|</div>
-                <div class="titlebar-by">by <span class="titlebar-author">Yamato</span></div>
-            </div>
+            <div class="titlebar-title">Tokyo Launcher</div>
+            <div class="sep">|</div>
+            <div class="titlebar-by">by <span class="titlebar-author">Yamato</span></div>
         </div>
         <div class="titlebar-buttons">
             <div class="channels-menu-wrap" id="channelsMenuWrap">
@@ -1274,19 +1202,6 @@ body.theme-macos.mj .settings-save-btn:active { transform:translateY(4px); box-s
             <button id="minBtn" title="Свернуть">─</button>
             <button id="closeBtn" class="close" title="Закрыть">✕</button>
         </div>
-    </div>
-
-    <!-- ═══ BUILDS TAB (right side) ═══ -->
-    <div class="builds-tab" id="buildsTab" title="Доступные сборки">
-        <span class="bt-ico">💿</span><span>СБОРКИ</span>
-    </div>
-    <div class="builds-overlay" id="buildsOverlay"></div>
-    <div class="builds-panel" id="buildsPanel">
-        <div class="builds-panel-header">
-            <span class="builds-panel-title">Сборки игры <span class="jp">ビルド</span></span>
-            <button class="builds-panel-close" id="buildsPanelClose">✕</button>
-        </div>
-        <div class="builds-list" id="buildsList"></div>
     </div>
 
     <div class="wrapper">
@@ -2118,56 +2033,6 @@ body.theme-macos.mj .settings-save-btn:active { transform:translateY(4px); box-s
             t.style.removeProperty('--rx'); t.style.removeProperty('--ry');
             t.style.removeProperty('--mx'); t.style.removeProperty('--my');
         },true);
-    })();
-
-    /* ══ BUILDS PANEL ══ */
-    (function(){
-        // ── Отредактируй список сборок здесь: name / version / size / desc / url ──
-        var BUILDS = [
-            {
-                name: 'Asi fails',
-                version: 'v1',
-                size: '4 Kb',
-                desc: 'Asi-plugin',
-                url: 'https://raw.githubusercontent.com/yamatoklays-svg/-tokyo2/main/asi.zip'
-            },
-            {
-                name: 'Лёгкая сборка',
-                version: 'v1.0.0 Lite',
-                size: '1.8 GB',
-                desc: 'Облегчённая версия без HD-текстур — качается и устанавливается быстрее.',
-                url: 'https://drive.google.com/PASTE_LITE_BUILD_LINK_HERE'
-            }
-        ];
-
-        var listEl = document.getElementById('buildsList');
-        BUILDS.forEach(function(b){
-            var card = document.createElement('div');
-            card.className = 'build-card';
-            card.innerHTML =
-                '<div class="build-card-name"></div>' +
-                '<div class="build-card-ver"></div>' +
-                '<div class="build-card-meta">Размер: ' + b.size + '</div>' +
-                '<div class="build-card-desc"></div>' +
-                '<button class="build-card-dl">⬇ Скачать</button>';
-            card.querySelector('.build-card-name').textContent = b.name;
-            card.querySelector('.build-card-ver').textContent = b.version;
-            card.querySelector('.build-card-desc').textContent = b.desc;
-            card.querySelector('.build-card-dl').addEventListener('click', function(){
-                window.chrome.webview.postMessage(JSON.stringify({ action:'openUrl', url:b.url }));
-            });
-            listEl.appendChild(card);
-        });
-
-        var tab = document.getElementById('buildsTab');
-        var panel = document.getElementById('buildsPanel');
-        var overlay = document.getElementById('buildsOverlay');
-        var closeBtn = document.getElementById('buildsPanelClose');
-        function openPanel(){ panel.classList.add('open'); overlay.classList.add('show'); }
-        function closePanel(){ panel.classList.remove('open'); overlay.classList.remove('show'); }
-        tab.addEventListener('click', openPanel);
-        closeBtn.addEventListener('click', closePanel);
-        overlay.addEventListener('click', closePanel);
     })();
     </script>
 </body>
