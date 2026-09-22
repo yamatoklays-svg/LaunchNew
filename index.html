@@ -1145,38 +1145,7 @@ body.theme-macos.mj .settings-save-btn:active { transform:translateY(4px); box-s
                                 <div class="f1s-status" id="f1sStatus"></div>
                             </div>
                         </div>
-                        <!-- ═══ KEYBOARD OVERLAY ═══ -->
-                        <div class="setting-section" style="--sect-accent:rgba(0,220,255,0.35)">
-                            <div class="setting-section-header">
-                                <span class="dot" style="background:#00e5ff;box-shadow:0 0 5px #00e5ff"></span>
-                                KEYBOARD OVERLAY · キーボード
-                            </div>
-                            <div class="setting-row">
-                                <div class="setting-info"><div class="setting-name"><span class="ios-ico" style="--c:#00e5ff">⌨</span><span>Показывать клавиши</span></div><div class="setting-desc">W A S D, мышь и Space поверх игры</div></div>
-                                <label class="stg-toggle"><input type="checkbox" id="keyOverlayToggle" checked><div class="stg-track"></div></label>
-                            </div>
-                            <div class="setting-row" style="flex-wrap:wrap;gap:10px">
-                                <div class="setting-info"><div class="setting-name">Клавиши</div><div class="setting-desc">Выбери, что отображать</div></div>
-                                <div style="display:flex;flex-wrap:wrap;gap:7px;max-width:520px">
-                                    <label><input type="checkbox" class="ko-key" id="koW" checked> W</label>
-                                    <label><input type="checkbox" class="ko-key" id="koA" checked> A</label>
-                                    <label><input type="checkbox" class="ko-key" id="koS" checked> S</label>
-                                    <label><input type="checkbox" class="ko-key" id="koD" checked> D</label>
-                                    <label><input type="checkbox" class="ko-key" id="koSPACE"> SPACE</label>
-                                    <label><input type="checkbox" class="ko-key" id="koLMB" checked> LMB</label>
-                                    <label><input type="checkbox" class="ko-key" id="koRMB" checked> RMB</label>
-                                </div>
-                            </div>
-                            <div class="setting-row">
-                                <div class="setting-info"><div class="setting-name">Редактор</div><div class="setting-desc">F10 — включить/выключить. В редакторе можно двигать overlay мышью, колесом менять размер.</div></div>
-                                <button id="koEditBtn" class="settings-save-btn" style="padding:8px 14px">F10</button>
-                            </div>
-                            <div class="setting-row">
-                                <div class="setting-info"><div class="setting-name">Размер</div><div class="setting-desc">50% — 250%</div></div>
-                                <input id="koScale" type="range" min="50" max="250" value="100" step="5" style="width:180px">
-                            </div>
-                        </div>
-                        <!-- ═══ КОНЕЦ KEYBOARD OVERLAY ═══ -->
+                        <!-- ═══ КОНЕЦ F1 ПОДСКАЗКА ═══ -->
 
                     </div>
 
@@ -1754,7 +1723,7 @@ body.theme-macos.mj .settings-save-btn:active { transform:translateY(4px); box-s
     gearBtn.onclick=function(){
         var o=overlay.classList.toggle('open');
         gearBtn.classList.toggle('active',o);
-        if(o){updateSliderFill();koPost('overlayGetState');if(selectedFolder)window.chrome.webview.postMessage(JSON.stringify({action:"getFoliageState",folder:selectedFolder}));}
+        if(o){updateSliderFill();if(selectedFolder)window.chrome.webview.postMessage(JSON.stringify({action:"getFoliageState",folder:selectedFolder}));}
     };
     settClose.onclick=function(){overlay.classList.remove('open');gearBtn.classList.remove('active');};
     overlay.onclick=function(e){if(e.target===overlay){overlay.classList.remove('open');gearBtn.classList.remove('active');}};
@@ -1781,24 +1750,6 @@ body.theme-macos.mj .settings-save-btn:active { transform:translateY(4px); box-s
         foliageBadge.className='foliage-badge flip '+(foliageToggle.checked?'on':'off');
         foliageBadge.addEventListener('animationend',function handler(){foliageBadge.classList.remove('flip');foliageBadge.removeEventListener('animationend',handler);});
     });
-
-    // ── Keyboard overlay settings ──
-    var keyOverlayToggle=document.getElementById('keyOverlayToggle');
-    var koScale=document.getElementById('koScale');
-    var koEditBtn=document.getElementById('koEditBtn');
-    var koMap={W:'koW',A:'koA',S:'koS',D:'koD',SPACE:'koSPACE',LMB:'koLMB',RMB:'koRMB'};
-    function koPost(action,obj){ obj=obj||{}; obj.action=action; window.chrome.webview.postMessage(JSON.stringify(obj)); }
-    function koApply(){
-        koPost('overlaySetEnabled',{enabled:keyOverlayToggle.checked?'true':'false'});
-        koPost('overlaySetScale',{percent:parseInt(koScale.value)||100});
-        var keys=[]; Object.keys(koMap).forEach(function(k){if(document.getElementById(koMap[k]).checked)keys.push(k);});
-        koPost('overlaySetKeys',{keys:keys.join(',')});
-    }
-    keyOverlayToggle.addEventListener('change',function(){koPost('overlaySetEnabled',{enabled:this.checked?'true':'false'});});
-    koScale.addEventListener('input',function(){koPost('overlaySetScale',{percent:parseInt(this.value)||100});});
-    document.querySelectorAll('.ko-key').forEach(function(el){el.addEventListener('change',koApply);});
-    koEditBtn.addEventListener('click',function(){koPost('overlaySetEditor',{enabled:'true'});});
-    koApply();
 
     settSave.onclick=function(){
         save();
@@ -2056,7 +2007,6 @@ body.theme-macos.mj .settings-save-btn:active { transform:translateY(4px); box-s
         if(data.action==="foliageResult")setStatus(data.message,data.success?"success":"error");
         if(data.action==="foliageState"){foliageToggle.checked=data.enabled;foliageBadge.textContent=data.enabled?'ВКЛ':'ВЫКЛ';foliageBadge.className='foliage-badge '+(data.enabled?'on':'off');}
         if(data.action==="versionInfo"){document.getElementById('launcherVersion').textContent='v'+data.version;}
-        if(data.action==="overlayState"){ keyOverlayToggle.checked=!!data.enabled; if(data.scale)koScale.value=data.scale; if(data.keys){Object.keys(koMap).forEach(function(k){document.getElementById(koMap[k]).checked=data.keys.indexOf(k)>=0;});} }
         if(data.action==="dataLoaded"){
             try{
                 var d=data.data;
@@ -2170,122 +2120,55 @@ body.theme-macos.mj .settings-save-btn:active { transform:translateY(4px); box-s
         },true);
     })();
 
-/* ══ BUILDS PANEL ══ */
-(function(){
-    var listEl = document.getElementById('buildsList');
-    var availableBuilds = [];
-    var installing = false;
+    /* ══ BUILDS PANEL ══ */
+    (function(){
+        // ── Отредактируй список сборок здесь: name / version / size / desc / url ──
+        var BUILDS = [
+            {
+                name: 'Asi fails',
+                version: 'v1',
+                size: '4 Kb',
+                desc: 'Asi-plugin',
+                url: 'https://raw.githubusercontent.com/yamatoklays-svg/-tokyo2/main/asi.zip'
+            },
+            {
+                name: 'Лёгкая сборка',
+                version: 'v1.0.0 Lite',
+                size: '1.8 GB',
+                desc: 'Облегчённая версия без HD-текстур — качается и устанавливается быстрее.',
+                url: 'https://drive.google.com/PASTE_LITE_BUILD_LINK_HERE'
+            }
+        ];
 
-    function renderBuilds(){
-        listEl.innerHTML = '';
-        if(!availableBuilds.length){
-            var empty = document.createElement('div');
-            empty.style.cssText = 'padding:20px;text-align:center;font-size:11px;color:var(--muted)';
-            empty.textContent = 'Список сборок недоступен. Проверьте интернет.';
-            listEl.appendChild(empty);
-            return;
-        }
-        availableBuilds.forEach(function(b){
+        var listEl = document.getElementById('buildsList');
+        BUILDS.forEach(function(b){
             var card = document.createElement('div');
             card.className = 'build-card';
-            card.dataset.buildId = b.id;
             card.innerHTML =
                 '<div class="build-card-name"></div>' +
                 '<div class="build-card-ver"></div>' +
-                '<div class="build-card-progress-wrap" style="display:none;margin:8px 0;height:4px;border-radius:4px;background:rgba(255,255,255,0.08);overflow:hidden">' +
-                  '<div class="build-card-progress-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#ff4d8d,#a78bfa,#22e4ff);transition:width .2s"></div>' +
-                '</div>' +
-                '<div class="build-card-status" style="font-size:10px;min-height:13px;margin-bottom:6px;color:var(--muted)"></div>' +
-                '<button class="build-card-dl">⬇ Скачать и установить</button>';
-            card.querySelector('.build-card-name').textContent = b.name || b.id;
-            card.querySelector('.build-card-ver').textContent = b.version ? ('v'+b.version) : '';
-            card.querySelector('.build-card-dl').addEventListener('click', function(){ startInstall(b.id, card); });
+                '<div class="build-card-meta">Размер: ' + b.size + '</div>' +
+                '<div class="build-card-desc"></div>' +
+                '<button class="build-card-dl">⬇ Скачать</button>';
+            card.querySelector('.build-card-name').textContent = b.name;
+            card.querySelector('.build-card-ver').textContent = b.version;
+            card.querySelector('.build-card-desc').textContent = b.desc;
+            card.querySelector('.build-card-dl').addEventListener('click', function(){
+                window.chrome.webview.postMessage(JSON.stringify({ action:'openUrl', url:b.url }));
+            });
             listEl.appendChild(card);
         });
-    }
 
-    function startInstall(buildId, card){
-        if(installing) return;
-        var st = card.querySelector('.build-card-status');
-        if(!selectedFolder){
-            st.textContent = '⚠ Сначала выберите папку с игрой'; st.style.color = '#ff4455';
-            return;
-        }
-        installing = true;
-        card.dataset.installing = '1';
-        var btn = card.querySelector('.build-card-dl');
-        var wrap = card.querySelector('.build-card-progress-wrap');
-        var bar = card.querySelector('.build-card-progress-bar');
-        btn.disabled = true; btn.textContent = 'Установка...';
-        wrap.style.display = 'block'; bar.style.width = '0%';
-        st.style.color = 'var(--muted)'; st.textContent = 'Скачивание...';
-        window.chrome.webview.postMessage(JSON.stringify({
-            action:'installBuild', folder:selectedFolder, buildId:buildId, overwrite:'true'
-        }));
-    }
-
-    function resetActiveCard(success, message){
-        var card = listEl.querySelector('[data-installing="1"]');
-        if(!card) return;
-        delete card.dataset.installing;
-        var btn = card.querySelector('.build-card-dl');
-        var wrap = card.querySelector('.build-card-progress-wrap');
-        var st = card.querySelector('.build-card-status');
-        btn.disabled = false; btn.textContent = '⬇ Скачать и установить';
-        wrap.style.display = 'none';
-        st.textContent = message || '';
-        st.style.color = success ? 'var(--green)' : '#ff4455';
-        installing = false;
-    }
-
-    window.chrome.webview.addEventListener('message', function(event){
-        var data = typeof event.data==='string' ? JSON.parse(event.data) : event.data;
-        if(data.action === 'availableBuilds'){
-            availableBuilds = data.builds || [];
-            renderBuilds();
-        }
-        if(data.action === 'installProgress'){
-            var card = listEl.querySelector('[data-installing="1"]');
-            if(!card) return;
-            var wrap = card.querySelector('.build-card-progress-wrap');
-            var bar = card.querySelector('.build-card-progress-bar');
-            var st = card.querySelector('.build-card-status');
-            wrap.style.display = 'block';
-            if(data.stage === 'download'){
-                st.textContent = 'Скачивание... ' + data.percent + '%';
-                bar.style.width = Math.max(0, Math.min(100, data.percent)) + '%';
-            } else if(data.stage === 'extract'){
-                st.textContent = 'Распаковка архива...'; bar.style.width = '100%';
-            } else if(data.stage === 'merge'){
-                st.textContent = 'Установка файлов...'; bar.style.width = '100%';
-            }
-        }
-        if(data.action === 'installResult'){
-            if(data.success){
-                var msg = 'Готово: скопировано ' + data.copied
-                    + (data.skipped ? (', пропущено ' + data.skipped) : '')
-                    + (data.failed ? (', ошибок ' + data.failed) : '');
-                resetActiveCard(true, msg);
-            } else {
-                resetActiveCard(false, data.message || 'Ошибка установки');
-            }
-        }
-    });
-
-    var tab = document.getElementById('buildsTab');
-    var panel = document.getElementById('buildsPanel');
-    var overlay = document.getElementById('buildsOverlay');
-    var closeBtn = document.getElementById('buildsPanelClose');
-    function openPanel(){
-        panel.classList.add('open'); overlay.classList.add('show');
-        window.chrome.webview.postMessage(JSON.stringify({action:'getAvailableBuilds'}));
-        if(!availableBuilds.length) window.chrome.webview.postMessage(JSON.stringify({action:'refreshBuilds'}));
-    }
-    function closePanel(){ panel.classList.remove('open'); overlay.classList.remove('show'); }
-    tab.addEventListener('click', openPanel);
-    closeBtn.addEventListener('click', closePanel);
-    overlay.addEventListener('click', closePanel);
-})();
+        var tab = document.getElementById('buildsTab');
+        var panel = document.getElementById('buildsPanel');
+        var overlay = document.getElementById('buildsOverlay');
+        var closeBtn = document.getElementById('buildsPanelClose');
+        function openPanel(){ panel.classList.add('open'); overlay.classList.add('show'); }
+        function closePanel(){ panel.classList.remove('open'); overlay.classList.remove('show'); }
+        tab.addEventListener('click', openPanel);
+        closeBtn.addEventListener('click', closePanel);
+        overlay.addEventListener('click', closePanel);
+    })();
     </script>
 </body>
 </html>
