@@ -1011,25 +1011,6 @@ body.theme-macos.mj .settings-save-btn:active { transform:translateY(4px); box-s
 #activationOverlay > div > div:nth-child(2) { color:rgba(235,235,245,.6) !important; font-size:13px !important; }
 #activationCodeInput { height:50px; background:#000 !important; border:none !important; border-radius:14px !important; color:#fff !important; font-size:15px !important; box-shadow:inset 0 2px 7px rgba(0,0,0,.95), inset 0 0 0 .5px rgba(255,255,255,.12) !important; }
 #activationCodeInput:focus { outline:none; box-shadow:inset 0 2px 7px rgba(0,0,0,.95), inset 0 0 0 1.5px rgba(10,132,255,.85), 0 0 22px -4px rgba(10,132,255,.6) !important; }
-
-
-        /* ═══ KEYBOARD OVERLAY SETTINGS ═══ */
-        .key-overlay-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px; margin-top:10px; }
-        .key-check { position:relative; display:flex; align-items:center; justify-content:center; min-height:42px; padding:8px 6px; border-radius:11px; cursor:pointer; background:rgba(255,255,255,.025); border:1px solid rgba(120,170,255,.10); color:rgba(210,225,245,.65); transition:.18s; }
-        .key-check:hover { background:rgba(30,107,255,.10); border-color:rgba(30,107,255,.28); color:#fff; transform:translateY(-1px); }
-        .key-check input { position:absolute; opacity:0; pointer-events:none; }
-        .key-check span { font-size:11px; font-weight:700; letter-spacing:.7px; }
-        .key-check:has(input:checked) { background:linear-gradient(180deg,rgba(30,107,255,.22),rgba(0,180,255,.07)); border-color:rgba(0,190,255,.42); color:#fff; box-shadow:inset 0 1px 0 rgba(255,255,255,.10),0 0 14px rgba(0,180,255,.08); }
-        .key-check:has(input:checked)::after { content:'✓'; position:absolute; top:4px; right:6px; font-size:8px; color:#00e5a0; }
-        .key-overlay-hint { margin-top:10px; padding:9px 11px; border-radius:10px; background:rgba(0,180,255,.045); border:1px solid rgba(0,180,255,.09); color:rgba(170,200,235,.48); font-size:10px; line-height:1.45; }
-        .key-overlay-hint b { color:rgba(220,235,255,.8); }
-        body.theme-macos.mj .key-overlay-grid { gap:7px; }
-        body.theme-macos.mj .key-check { min-height:44px; border:none; border-radius:12px; background:linear-gradient(180deg,#111114,#030304); box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 0 0 .5px var(--hair),0 4px 8px rgba(0,0,0,.7); color:var(--label2); }
-        body.theme-macos.mj .key-check:hover { background:linear-gradient(180deg,#18181c,#050506); color:#fff; border:none; transform:translateY(-1px); }
-        body.theme-macos.mj .key-check:has(input:checked) { background:linear-gradient(180deg,#17324d,#06101a); box-shadow:inset 0 1px 0 rgba(120,190,255,.22),0 0 0 .5px rgba(80,150,255,.5),0 4px 10px rgba(0,0,0,.85); color:#fff; }
-        body.theme-macos.mj .key-overlay-hint { border:none; border-radius:12px; background:#000; box-shadow:var(--sunken),inset 0 0 0 .5px rgba(255,255,255,.07); color:var(--label3); }
-        body.theme-macos.mj .key-overlay-hint b { color:var(--label2); }
-
     </style>
 </head>
 <body class="theme-macos mj" oncontextmenu="return false;">
@@ -1139,40 +1120,6 @@ body.theme-macos.mj .settings-save-btn:active { transform:translateY(4px); box-s
                             </div>
                         </div>
 
-
-
-                        <!-- ═══ KEYBOARD / MOUSE OVERLAY ═══ -->
-                        <div class="setting-section" style="--sect-accent:rgba(0,190,255,0.42)">
-                            <div class="setting-section-header">
-                                <span class="dot" style="background:#00d4ff;box-shadow:0 0 5px #00d4ff"></span>
-                                ОВЕРЛЕЙ КЛАВИШ · INPUT OVERLAY
-                            </div>
-                            <div class="setting-row" style="flex-direction:column;align-items:stretch;gap:10px">
-                                <div style="display:flex;align-items:center;justify-content:space-between;width:100%">
-                                    <div class="setting-info">
-                                        <div class="setting-name"><span class="ios-ico" style="--c:#0a84ff">⌨</span><span>Показывать нажатия</span></div>
-                                        <div class="setting-desc">Показывает W/A/S/D, мышь и выбранные клавиши поверх игры.</div>
-                                    </div>
-                                    <label class="stg-toggle"><input type="checkbox" id="keyOverlayToggle" checked><div class="stg-track"></div></label>
-                                </div>
-                                <div class="key-overlay-grid">
-                                    <label class="key-check"><input type="checkbox" id="koW" checked><span>W</span></label>
-                                    <label class="key-check"><input type="checkbox" id="koA" checked><span>A</span></label>
-                                    <label class="key-check"><input type="checkbox" id="koS" checked><span>S</span></label>
-                                    <label class="key-check"><input type="checkbox" id="koD" checked><span>D</span></label>
-                                    <label class="key-check"><input type="checkbox" id="koLMB" checked><span>LMB</span></label>
-                                    <label class="key-check"><input type="checkbox" id="koRMB" checked><span>RMB</span></label>
-                                    <label class="key-check"><input type="checkbox" id="koSPACE"><span>SPACE</span></label>
-                                    <label class="key-check"><input type="checkbox" id="koSHIFT"><span>SHIFT</span></label>
-                                    <label class="key-check"><input type="checkbox" id="koCTRL"><span>CTRL</span></label>
-                                    <label class="key-check"><input type="checkbox" id="koALT"><span>ALT</span></label>
-                                    <label class="key-check"><input type="checkbox" id="koTAB"><span>TAB</span></label>
-                                </div>
-                                <div class="key-overlay-hint"><b>F10</b> — включить режим редактирования оверлея в игре. В режиме редактирования перетаскивай его мышью, а <b>колесом</b> меняй размер.</div>
-                            </div>
-                        </div>
-                        <!-- ═══ END KEYBOARD / MOUSE OVERLAY ═══ -->
-
                         <!-- ═══ F1 ПОДСКАЗКА — НОВАЯ СЕКЦИЯ ═══ -->
                         <div class="setting-section" style="--sect-accent:rgba(255,200,0,0.4)">
                             <div class="setting-section-header">
@@ -1198,7 +1145,38 @@ body.theme-macos.mj .settings-save-btn:active { transform:translateY(4px); box-s
                                 <div class="f1s-status" id="f1sStatus"></div>
                             </div>
                         </div>
-                        <!-- ═══ КОНЕЦ F1 ПОДСКАЗКА ═══ -->
+                        <!-- ═══ KEYBOARD OVERLAY ═══ -->
+                        <div class="setting-section" style="--sect-accent:rgba(0,220,255,0.35)">
+                            <div class="setting-section-header">
+                                <span class="dot" style="background:#00e5ff;box-shadow:0 0 5px #00e5ff"></span>
+                                KEYBOARD OVERLAY · キーボード
+                            </div>
+                            <div class="setting-row">
+                                <div class="setting-info"><div class="setting-name"><span class="ios-ico" style="--c:#00e5ff">⌨</span><span>Показывать клавиши</span></div><div class="setting-desc">W A S D, мышь и Space поверх игры</div></div>
+                                <label class="stg-toggle"><input type="checkbox" id="keyOverlayToggle" checked><div class="stg-track"></div></label>
+                            </div>
+                            <div class="setting-row" style="flex-wrap:wrap;gap:10px">
+                                <div class="setting-info"><div class="setting-name">Клавиши</div><div class="setting-desc">Выбери, что отображать</div></div>
+                                <div style="display:flex;flex-wrap:wrap;gap:7px;max-width:520px">
+                                    <label><input type="checkbox" class="ko-key" id="koW" checked> W</label>
+                                    <label><input type="checkbox" class="ko-key" id="koA" checked> A</label>
+                                    <label><input type="checkbox" class="ko-key" id="koS" checked> S</label>
+                                    <label><input type="checkbox" class="ko-key" id="koD" checked> D</label>
+                                    <label><input type="checkbox" class="ko-key" id="koSPACE"> SPACE</label>
+                                    <label><input type="checkbox" class="ko-key" id="koLMB" checked> LMB</label>
+                                    <label><input type="checkbox" class="ko-key" id="koRMB" checked> RMB</label>
+                                </div>
+                            </div>
+                            <div class="setting-row">
+                                <div class="setting-info"><div class="setting-name">Редактор</div><div class="setting-desc">F10 — включить/выключить. В редакторе можно двигать overlay мышью, колесом менять размер.</div></div>
+                                <button id="koEditBtn" class="settings-save-btn" style="padding:8px 14px">F10</button>
+                            </div>
+                            <div class="setting-row">
+                                <div class="setting-info"><div class="setting-name">Размер</div><div class="setting-desc">50% — 250%</div></div>
+                                <input id="koScale" type="range" min="50" max="250" value="100" step="5" style="width:180px">
+                            </div>
+                        </div>
+                        <!-- ═══ КОНЕЦ KEYBOARD OVERLAY ═══ -->
 
                     </div>
 
@@ -1771,62 +1749,12 @@ body.theme-macos.mj .settings-save-btn:active { transform:translateY(4px); box-s
         renderNickList(); save();
     }
 
-
-    /* ══ Keyboard / mouse overlay settings ══ */
-    var keyOverlaySettings = {
-        enabled:true,
-        scale:100,
-        x:60,
-        y:60,
-        keys:['W','A','S','D','LMB','RMB']
-    };
-    var keyOverlayIds = {
-        W:'koW', A:'koA', S:'koS', D:'koD',
-        LMB:'koLMB', RMB:'koRMB', SPACE:'koSPACE',
-        SHIFT:'koSHIFT', CTRL:'koCTRL', ALT:'koALT', TAB:'koTAB'
-    };
-    function collectKeyOverlaySettings(){
-        keyOverlaySettings.enabled=document.getElementById('keyOverlayToggle').checked;
-        var keys=[];
-        Object.keys(keyOverlayIds).forEach(function(k){
-            var el=document.getElementById(keyOverlayIds[k]);
-            if(el && el.checked) keys.push(k);
-        });
-        keyOverlaySettings.keys=keys;
-        return keyOverlaySettings;
-    }
-    function applyKeyOverlaySettingsToUI(){
-        document.getElementById('keyOverlayToggle').checked=keyOverlaySettings.enabled!==false;
-        Object.keys(keyOverlayIds).forEach(function(k){
-            var el=document.getElementById(keyOverlayIds[k]);
-            if(el) el.checked=keyOverlaySettings.keys.indexOf(k)!==-1;
-        });
-    }
-    function sendKeyOverlaySettings(){
-        collectKeyOverlaySettings();
-        window.chrome.webview.postMessage(JSON.stringify({
-            action:'keyOverlaySettings',
-            enabled:!!keyOverlaySettings.enabled,
-            scale:parseInt(keyOverlaySettings.scale)||100,
-            x:parseInt(keyOverlaySettings.x)||60,
-            y:parseInt(keyOverlaySettings.y)||60,
-            keys:keyOverlaySettings.keys.join(',')
-        }));
-    }
-
-
-    Object.keys(keyOverlayIds).forEach(function(k){
-        var el=document.getElementById(keyOverlayIds[k]);
-        if(el) el.addEventListener('change',function(){ collectKeyOverlaySettings(); });
-    });
-    document.getElementById('keyOverlayToggle').addEventListener('change',function(){ collectKeyOverlaySettings(); });
-
     /* ══ Settings modal ══ */
     var overlay=document.getElementById('settingsOverlay'),gearBtn=document.getElementById('gearBtn'),settClose=document.getElementById('settingsClose'),settSave=document.getElementById('settingsSave');
     gearBtn.onclick=function(){
         var o=overlay.classList.toggle('open');
         gearBtn.classList.toggle('active',o);
-        if(o){updateSliderFill();if(selectedFolder)window.chrome.webview.postMessage(JSON.stringify({action:"getFoliageState",folder:selectedFolder}));}
+        if(o){updateSliderFill();koPost('overlayGetState');if(selectedFolder)window.chrome.webview.postMessage(JSON.stringify({action:"getFoliageState",folder:selectedFolder}));}
     };
     settClose.onclick=function(){overlay.classList.remove('open');gearBtn.classList.remove('active');};
     overlay.onclick=function(e){if(e.target===overlay){overlay.classList.remove('open');gearBtn.classList.remove('active');}};
@@ -1854,11 +1782,28 @@ body.theme-macos.mj .settings-save-btn:active { transform:translateY(4px); box-s
         foliageBadge.addEventListener('animationend',function handler(){foliageBadge.classList.remove('flip');foliageBadge.removeEventListener('animationend',handler);});
     });
 
+    // ── Keyboard overlay settings ──
+    var keyOverlayToggle=document.getElementById('keyOverlayToggle');
+    var koScale=document.getElementById('koScale');
+    var koEditBtn=document.getElementById('koEditBtn');
+    var koMap={W:'koW',A:'koA',S:'koS',D:'koD',SPACE:'koSPACE',LMB:'koLMB',RMB:'koRMB'};
+    function koPost(action,obj){ obj=obj||{}; obj.action=action; window.chrome.webview.postMessage(JSON.stringify(obj)); }
+    function koApply(){
+        koPost('overlaySetEnabled',{enabled:keyOverlayToggle.checked?'true':'false'});
+        koPost('overlaySetScale',{percent:parseInt(koScale.value)||100});
+        var keys=[]; Object.keys(koMap).forEach(function(k){if(document.getElementById(koMap[k]).checked)keys.push(k);});
+        koPost('overlaySetKeys',{keys:keys.join(',')});
+    }
+    keyOverlayToggle.addEventListener('change',function(){koPost('overlaySetEnabled',{enabled:this.checked?'true':'false'});});
+    koScale.addEventListener('input',function(){koPost('overlaySetScale',{percent:parseInt(this.value)||100});});
+    document.querySelectorAll('.ko-key').forEach(function(el){el.addEventListener('change',koApply);});
+    koEditBtn.addEventListener('click',function(){koPost('overlaySetEditor',{enabled:'true'});});
+    koApply();
+
     settSave.onclick=function(){
         save();
         applyEffects();
         if(selectedFolder)window.chrome.webview.postMessage(JSON.stringify({action:"setFoliage",folder:selectedFolder,enable:foliageToggle.checked?"true":"false"}));
-        sendKeyOverlaySettings();
         settSave.classList.remove('saved');void settSave.offsetWidth;settSave.classList.add('saved');
         setTimeout(function(){overlay.classList.remove('open');gearBtn.classList.remove('active');},180);
     };
@@ -1874,8 +1819,7 @@ body.theme-macos.mj .settings-save-btn:active { transform:translateY(4px); box-s
             injectDelay:delaySlider.value,
             foliage:foliageToggle.checked?'1':'0',
             process:selectedProcess,
-            visSettings:visSettings,
-            keyOverlay:keyOverlaySettings
+            visSettings:visSettings
         }}));
     }
     function load(){window.chrome.webview.postMessage(JSON.stringify({action:"loadData"}));}
@@ -2112,6 +2056,7 @@ body.theme-macos.mj .settings-save-btn:active { transform:translateY(4px); box-s
         if(data.action==="foliageResult")setStatus(data.message,data.success?"success":"error");
         if(data.action==="foliageState"){foliageToggle.checked=data.enabled;foliageBadge.textContent=data.enabled?'ВКЛ':'ВЫКЛ';foliageBadge.className='foliage-badge '+(data.enabled?'on':'off');}
         if(data.action==="versionInfo"){document.getElementById('launcherVersion').textContent='v'+data.version;}
+        if(data.action==="overlayState"){ keyOverlayToggle.checked=!!data.enabled; if(data.scale)koScale.value=data.scale; if(data.keys){Object.keys(koMap).forEach(function(k){document.getElementById(koMap[k]).checked=data.keys.indexOf(k)>=0;});} }
         if(data.action==="dataLoaded"){
             try{
                 var d=data.data;
@@ -2123,15 +2068,6 @@ body.theme-macos.mj .settings-save-btn:active { transform:translateY(4px); box-s
                 if(d.injectDelay!==undefined){delaySlider.value=d.injectDelay;delayVal.textContent=parseInt(d.injectDelay)===0?'сразу':d.injectDelay+'с';}
                 if(d.foliage!==undefined){foliageToggle.checked=d.foliage==='1';foliageBadge.textContent=foliageToggle.checked?'ВКЛ':'ВЫКЛ';foliageBadge.className='foliage-badge '+(foliageToggle.checked?'on':'off');}
                 if(d.process)setProc(d.process);
-                if(d.keyOverlay){
-                    keyOverlaySettings.enabled=d.keyOverlay.enabled!==false;
-                    keyOverlaySettings.scale=parseInt(d.keyOverlay.scale)||100;
-                    keyOverlaySettings.x=parseInt(d.keyOverlay.x)||60;
-                    keyOverlaySettings.y=parseInt(d.keyOverlay.y)||60;
-                    if(Array.isArray(d.keyOverlay.keys)) keyOverlaySettings.keys=d.keyOverlay.keys;
-                    else if(typeof d.keyOverlay.keys==='string') keyOverlaySettings.keys=d.keyOverlay.keys.split(',').filter(Boolean);
-                    applyKeyOverlaySettingsToUI();
-                }
                 if(d.visSettings){
                     Object.assign(visSettings,d.visSettings);
                     var vs=visSettings;
