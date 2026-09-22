@@ -2120,55 +2120,122 @@ body.theme-macos.mj .settings-save-btn:active { transform:translateY(4px); box-s
         },true);
     })();
 
-    /* ══ BUILDS PANEL ══ */
-    (function(){
-        // ── Отредактируй список сборок здесь: name / version / size / desc / url ──
-        var BUILDS = [
-            {
-                name: 'Asi fails',
-                version: 'v1',
-                size: '4 Kb',
-                desc: 'Asi-plugin',
-                url: 'https://raw.githubusercontent.com/yamatoklays-svg/-tokyo2/main/asi.zip'
-            },
-            {
-                name: 'Лёгкая сборка',
-                version: 'v1.0.0 Lite',
-                size: '1.8 GB',
-                desc: 'Облегчённая версия без HD-текстур — качается и устанавливается быстрее.',
-                url: 'https://drive.google.com/PASTE_LITE_BUILD_LINK_HERE'
-            }
-        ];
+/* ══ BUILDS PANEL ══ */
+(function(){
+    var listEl = document.getElementById('buildsList');
+    var availableBuilds = [];
+    var installing = false;
 
-        var listEl = document.getElementById('buildsList');
-        BUILDS.forEach(function(b){
+    function renderBuilds(){
+        listEl.innerHTML = '';
+        if(!availableBuilds.length){
+            var empty = document.createElement('div');
+            empty.style.cssText = 'padding:20px;text-align:center;font-size:11px;color:var(--muted)';
+            empty.textContent = 'Список сборок недоступен. Проверьте интернет.';
+            listEl.appendChild(empty);
+            return;
+        }
+        availableBuilds.forEach(function(b){
             var card = document.createElement('div');
             card.className = 'build-card';
+            card.dataset.buildId = b.id;
             card.innerHTML =
                 '<div class="build-card-name"></div>' +
                 '<div class="build-card-ver"></div>' +
-                '<div class="build-card-meta">Размер: ' + b.size + '</div>' +
-                '<div class="build-card-desc"></div>' +
-                '<button class="build-card-dl">⬇ Скачать</button>';
-            card.querySelector('.build-card-name').textContent = b.name;
-            card.querySelector('.build-card-ver').textContent = b.version;
-            card.querySelector('.build-card-desc').textContent = b.desc;
-            card.querySelector('.build-card-dl').addEventListener('click', function(){
-                window.chrome.webview.postMessage(JSON.stringify({ action:'openUrl', url:b.url }));
-            });
+                '<div class="build-card-progress-wrap" style="display:none;margin:8px 0;height:4px;border-radius:4px;background:rgba(255,255,255,0.08);overflow:hidden">' +
+                  '<div class="build-card-progress-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#ff4d8d,#a78bfa,#22e4ff);transition:width .2s"></div>' +
+                '</div>' +
+                '<div class="build-card-status" style="font-size:10px;min-height:13px;margin-bottom:6px;color:var(--muted)"></div>' +
+                '<button class="build-card-dl">⬇ Скачать и установить</button>';
+            card.querySelector('.build-card-name').textContent = b.name || b.id;
+            card.querySelector('.build-card-ver').textContent = b.version ? ('v'+b.version) : '';
+            card.querySelector('.build-card-dl').addEventListener('click', function(){ startInstall(b.id, card); });
             listEl.appendChild(card);
         });
+    }
 
-        var tab = document.getElementById('buildsTab');
-        var panel = document.getElementById('buildsPanel');
-        var overlay = document.getElementById('buildsOverlay');
-        var closeBtn = document.getElementById('buildsPanelClose');
-        function openPanel(){ panel.classList.add('open'); overlay.classList.add('show'); }
-        function closePanel(){ panel.classList.remove('open'); overlay.classList.remove('show'); }
-        tab.addEventListener('click', openPanel);
-        closeBtn.addEventListener('click', closePanel);
-        overlay.addEventListener('click', closePanel);
-    })();
+    function startInstall(buildId, card){
+        if(installing) return;
+        var st = card.querySelector('.build-card-status');
+        if(!selectedFolder){
+            st.textContent = '⚠ Сначала выберите папку с игрой'; st.style.color = '#ff4455';
+            return;
+        }
+        installing = true;
+        card.dataset.installing = '1';
+        var btn = card.querySelector('.build-card-dl');
+        var wrap = card.querySelector('.build-card-progress-wrap');
+        var bar = card.querySelector('.build-card-progress-bar');
+        btn.disabled = true; btn.textContent = 'Установка...';
+        wrap.style.display = 'block'; bar.style.width = '0%';
+        st.style.color = 'var(--muted)'; st.textContent = 'Скачивание...';
+        window.chrome.webview.postMessage(JSON.stringify({
+            action:'installBuild', folder:selectedFolder, buildId:buildId, overwrite:'true'
+        }));
+    }
+
+    function resetActiveCard(success, message){
+        var card = listEl.querySelector('[data-installing="1"]');
+        if(!card) return;
+        delete card.dataset.installing;
+        var btn = card.querySelector('.build-card-dl');
+        var wrap = card.querySelector('.build-card-progress-wrap');
+        var st = card.querySelector('.build-card-status');
+        btn.disabled = false; btn.textContent = '⬇ Скачать и установить';
+        wrap.style.display = 'none';
+        st.textContent = message || '';
+        st.style.color = success ? 'var(--green)' : '#ff4455';
+        installing = false;
+    }
+
+    window.chrome.webview.addEventListener('message', function(event){
+        var data = typeof event.data==='string' ? JSON.parse(event.data) : event.data;
+        if(data.action === 'availableBuilds'){
+            availableBuilds = data.builds || [];
+            renderBuilds();
+        }
+        if(data.action === 'installProgress'){
+            var card = listEl.querySelector('[data-installing="1"]');
+            if(!card) return;
+            var wrap = card.querySelector('.build-card-progress-wrap');
+            var bar = card.querySelector('.build-card-progress-bar');
+            var st = card.querySelector('.build-card-status');
+            wrap.style.display = 'block';
+            if(data.stage === 'download'){
+                st.textContent = 'Скачивание... ' + data.percent + '%';
+                bar.style.width = Math.max(0, Math.min(100, data.percent)) + '%';
+            } else if(data.stage === 'extract'){
+                st.textContent = 'Распаковка архива...'; bar.style.width = '100%';
+            } else if(data.stage === 'merge'){
+                st.textContent = 'Установка файлов...'; bar.style.width = '100%';
+            }
+        }
+        if(data.action === 'installResult'){
+            if(data.success){
+                var msg = 'Готово: скопировано ' + data.copied
+                    + (data.skipped ? (', пропущено ' + data.skipped) : '')
+                    + (data.failed ? (', ошибок ' + data.failed) : '');
+                resetActiveCard(true, msg);
+            } else {
+                resetActiveCard(false, data.message || 'Ошибка установки');
+            }
+        }
+    });
+
+    var tab = document.getElementById('buildsTab');
+    var panel = document.getElementById('buildsPanel');
+    var overlay = document.getElementById('buildsOverlay');
+    var closeBtn = document.getElementById('buildsPanelClose');
+    function openPanel(){
+        panel.classList.add('open'); overlay.classList.add('show');
+        window.chrome.webview.postMessage(JSON.stringify({action:'getAvailableBuilds'}));
+        if(!availableBuilds.length) window.chrome.webview.postMessage(JSON.stringify({action:'refreshBuilds'}));
+    }
+    function closePanel(){ panel.classList.remove('open'); overlay.classList.remove('show'); }
+    tab.addEventListener('click', openPanel);
+    closeBtn.addEventListener('click', closePanel);
+    overlay.addEventListener('click', closePanel);
+})();
     </script>
 </body>
 </html>
